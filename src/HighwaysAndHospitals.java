@@ -15,6 +15,22 @@ public class HighwaysAndHospitals {
      *  hospital access for all citizens in Menlo County.
      */
     public static long cost(int n, int hospitalCost, int highwayCost, int cities[][]) {
+        int highways = 0;
+        int hospitals = n;
+        if (hospitalCost > highwayCost) {
+            return n * hospitalCost;
+        }
+        // Every City starts with a hospital
+        int total = n * hospitalCost;
+        // Keep merging cities until cannot merge anymore
+        for (int i = 0; i < cities.length; i++) {
+
+        }
+
+
+
+
+
         return 0;
     }
 }
