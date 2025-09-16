@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 /**
  * Highways & Hospitals
  * A puzzle created by Zach Blick
@@ -17,25 +19,33 @@ public class HighwaysAndHospitals {
     public static long cost(int n, int hospitalCost, int highwayCost, int cities[][]) {
         // If its more cost-effective for every city to have a hospital
         if (hospitalCost > highwayCost) {
-            return n * hospitalCost;
+            return (long) n * hospitalCost;
         }
-        // Every City starts with a hospital
-        int total = n * hospitalCost;
-        // Keep track of if a city has a hospital
-        boolean[] hasHospital = new boolean[n];
-        for (boolean b: hasHospital) {
-            b = true;
+
+        int totalComponents = 0;
+        int[] components = new int[n + 1];
+        for (int i = 1; i < components.length; i++) {
+            components[i] = i;
         }
-        // Keep merging cities until cannot merge anymore
+
+        // Find the root of each city
         for (int i = 0; i < cities.length; i++) {
-            int city1 = cities[i][0];
-            int city2 = cities[i][1];
-            // If they both have a hospital connected them
-            if (hasHospital[city1] && hasHospital[city2]) {
-                total += highwayCost - hospitalCost;
-                hasHospital[city1] = false;
+            // Change cities root
+            int root = cities[i][0];
+            while (components[root] != root) {
+                root = components[root];
+            }
+            int city = cities[i][1];
+            components[city] = root;
+        }
+
+        // Calculate number of components
+        for(int x: components) {
+            if (x == -1) {
+                totalComponents++;
             }
         }
-        return total;
+        //return calculated cost of hospitals
+        return (long) hospitalCost * totalComponents + (long) highwayCost * (n - totalComponents);
     }
 }
